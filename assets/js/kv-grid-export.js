@@ -308,17 +308,19 @@
             var tmpColDelim = String.fromCharCode(11), // vertical tab character
                 tmpRowDelim = String.fromCharCode(0); // null character
             // actual delimiter characters for CSV format
-            var colDelim = '"' + self.config.colDelimiter + '"', rowDelim = '"' + self.config.rowDelimiter + '"';
+            var colDelim = self.config.enclosure + self.config.colDelimiter + self.config.enclosure, rowDelim = self.config.enclosure + self.config.rowDelimiter + self.config.enclosure;
+			
             // grab text from table into CSV formatted string
-            var txt = '"' + $rows.map(function (i, row) {
+            var txt = self.config.enclosure + $rows.map(function (i, row) {
                     var $row = $(row), $cols = $row.find(self.columns);
                     return $cols.map(function (j, col) {
                         var $col = $(col), text = $col.text().trim();
-                        return text.replace('"', '""'); // escape double quotes
+                        return text; // escape double quotes
                     }).get().join(tmpColDelim);
                 }).get().join(tmpRowDelim)
                     .split(tmpRowDelim).join(rowDelim)
-                    .split(tmpColDelim).join(colDelim) + '"';
+                    .split(tmpColDelim).join(colDelim) + self.config.enclosure+self.config.rowDelimiter;
+			txt = txt.replace("\\", "\\\\").replace(/\r/g, "\\r").replace(/\n/g, "\\n");
             self.download(expType, txt);
         },
         exportJSON: function () {

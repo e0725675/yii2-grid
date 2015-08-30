@@ -1019,6 +1019,7 @@ HTML;
                 'config' => [
                     'colDelimiter' => "\t",
                     'rowDelimiter' => "\r\n",
+                    'enclosure' => '"',
                 ]
             ],
             self::EXCEL => [

@@ -39,6 +39,9 @@ class ExportController extends \yii\web\Controller
             return;
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);
+		$content = str_replace("\\\\", "\\", $content);
+		$content = str_replace("\\r", "\r", $content);
+		$content = str_replace("\\n", "\n", $content);
         return $content;
     }
 
